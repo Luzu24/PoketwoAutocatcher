@@ -6,7 +6,7 @@
 ## Instructions
 <ul>
   <li>The first thing you need is your Discord Account Token (do not share it for any reason). Instructions on how to get it are in the <a href="https://github.com/Luzu24/PoketwoAutocatcher/token.js">token.js</a> file.</l1>
-  <li>Download <a href="https://git-scm.com/downloads">Git</a> and <a href="https://nodejs.org/en/download">Nodejs</a>.<br><i>You may not use Git and not clone this repository by just downloading index.js, .env and config.json files. You'd still need the folder, tho.</i></li>
+  <li>Download <a href="https://git-scm.com/downloads">Git</a> and <a href="https://nodejs.org/en/download">Nodejs</a>.<br><i>You may not use Git and not clone this repository by just downloading LICENSE, index.js, .env and config.json files. You'd still need the folder, tho.</i></li>
   <li>Create a Folder on your PC and copy it's directory.</li>
   <ul>
     <li>Open Windows CMD (Win + R) and run "cd [folder_directory]".</li>
