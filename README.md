@@ -12,7 +12,7 @@
     <li>Open Windows CMD (Win + R) and run "cd [folder_directory]".</li>
     <li>Run:</li>
     <ul>
-      <li>` git clone https://github.com/Luzu24/PoketwoAutocatcher `.</li>
+      <li>` git clone https://github.com/Luzu24/PoketwoAutocatcher.git `.</li>
       <li>` npm init -y `</li>
       <li>` npm install `</li>
     </ul>
