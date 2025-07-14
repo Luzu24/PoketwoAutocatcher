@@ -15,6 +15,7 @@
       <li>` git clone https://github.com/Luzu24/PoketwoAutocatcher.git `.</li>
       <li>` npm init -y `</li>
       <li>` npm install `</li>
+      <li>` npm install discord.js-selfbot-v13 `</li>
     </ul>
   </ul>
   <li>Now that you have the files you need you have to do your configurations. Paste your Token in the .env file (<i>TOKEN="Your Token goes here"</i>).<br>Open the config.json and put the IDs of the <i>ALLOWED_CHANNELS</i> and the ID of the <i>SPAM_CHANNEL</i>.<br><i>You may also edit spam message min/max interval and catch min/max delay, but I would leave it as how you found it if I was you.</i></li>
