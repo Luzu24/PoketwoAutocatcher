@@ -78,17 +78,17 @@ client.on("ready", async () => {
 
   startIncensePrompt();
 
-  const spamChannel = client.channels.cache.get(SPAM_CHANNEL_ID);
+  const spamChannel = client.channels.cache.get(SPAM_CHANNEL);
   if (!spamChannel) {
     console.error(
-      `ERROR: Spam channel with ID "${SPAM_CHANNEL_ID}" not found.`
+      `ERROR: Spam channel with ID "${SPAM_CHANNEL}" not found.`
     );
   } else {
     console.log(`Spam functionality started in channel: #${spamChannel.name}`);
     const sendSpamMessage = () => {
       spamChannel
         .send(generateRandomMessage())
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => {
           const nextInterval =
             Math.floor(
@@ -118,10 +118,10 @@ client.on("messageCreate", async (message) => {
           break;
         }
       }
-
+      
       if (firstButton) {
         activeInteractions.set(message.id, { timestamp: Date.now() });
-        await message.clickButton(firstButton.customId).catch(() => {});
+        await message.clickButton(firstButton).catch(() => { });
       }
       return;
     }
@@ -145,12 +145,12 @@ client.on("messageCreate", async (message) => {
       setTimeout(() => {
         message.channel
           .send(`<@${POKETWO_BOT_ID}> c ${pokemonName}`)
-          .catch(() => {});
+          .catch(() => { });
         console.log(`Caught "${pokemonName}".`);
         activeInteractions.delete(originalMessageId);
       }, catchDelay);
     }
-  } catch (err) {}
+  } catch (err) { }
 });
 
 // Incense stop on exit, if it was started
