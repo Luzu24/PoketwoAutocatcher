@@ -184,6 +184,6 @@ process.on("SIGINT", () => {
 
 
 client.login(TOKEN).catch((error) => {
-  console.error("Failed to login to Discord:", error); // More descriptive error
-  process.exit(1); // Exit with an error code on login failure
+  console.error("Failed to login to Discord:", error);
+  process.exit(1);
 });
