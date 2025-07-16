@@ -1,7 +1,7 @@
 const { Client } = require("discord.js-selfbot-v13");
 require("dotenv").config(); // Remeber to put your token in the .env file for it to work. Take a look at token.js to see how to get yours.
 
-const config = require("./config.json"); 
+const config = require("./config.json");
 
 const client = new Client({ checkUpdate: false });
 
@@ -30,6 +30,7 @@ const readline = require("readline").createInterface({
 let incenseChannel = null;
 let spamChannel = null;
 let isIncenseActive = false;
+let isSpamActive = false;
 let spamInterval = null;
 
 // Random message
@@ -50,6 +51,7 @@ function generateRandomMessage() {
 async function startSpam() {
   if (!spamChannel) {
     console.error(`ERROR: Spam channel not found. Please check SPAM_CHANNEL in config.json.`);
+    return;
   }
 
   const sendMessage = async () => {
@@ -70,12 +72,12 @@ async function startSpam() {
   console.log(`Spam started in channel: ${spamChannel.name}`);
 }
 
-// Incense prompt
-async function promptIncense() {
+// Prompts
+async function promptOptions() {
   return new Promise((resolve) => {
-    readline.question("Start incense? (Y | N)\n\t>", async (answer) => {
-      const normalizedAnswer = answer.trim().toUpperCase();
-      if (normalizedAnswer === "Y") {
+    readline.question("Start incense? (Y | N)\n\t>", async (incenseAnswer) => {
+      const normalizedIncense = incenseAnswer.trim().toUpperCase();
+      if (normalizedIncense === "Y") {
         if (!incenseChannel) {
           console.error(`ERROR: Main channel not found. Please check ALLOWED_CHANNELS in config.json.`);
           readline.close();
@@ -93,8 +95,22 @@ async function promptIncense() {
       } else {
         console.log("Incense not activated");
       }
-      readline.close();
-      resolve();
+
+      readline.question("Start spam? (Y | N)\n\t>", (spamAnswer) => {
+        const normalizedSpam = spamAnswer.trim().toUpperCase();
+        if (normalizedSpam === "Y") {
+          isSpamActive = true;
+          if (spamChannel) {
+            startSpam();
+          } else {
+            console.error("Spam channel not found");
+          }
+        } else {
+          console.log("Spam not activated");
+        }
+        readline.close();
+        resolve();
+      });
     });
   });
 }
@@ -113,8 +129,7 @@ client.on("ready", async () => {
     console.warn(`Warning: Spam channel with ID ${SPAM_CHANNEL} not found.`);
   }
 
-  await promptIncense();
-  startSpam();
+  await promptOptions();
 });
 
 // Autocatcher
@@ -158,9 +173,9 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-// Incense stop on exit, if it was started
+// Stops - exit
 process.on("exit", async () => {
-  console.log("Shutting down...");
+  // Incense stop
   if (incenseChannel && isIncenseActive) {
     try {
       await incenseChannel.send(`<@${POKETWO_BOT_ID}> incense pause`);
@@ -169,20 +184,35 @@ process.on("exit", async () => {
       console.error("Error sending incense pause command on exit:", error);
     }
   }
-  if (spamInterval) {
-    clearTimeout(spamInterval);
-    console.log("Spam interval cleared.");
+
+  // Spam stop
+  if (isSpamActive) {
+    console.log("Spam function was stopped.");
   }
-  readline.close();
+
+    console.log("Selfbot stopped.");
+
   client.destroy();
 });
 
-process.on("SIGINT", () => {
-    console.log("Received SIGINT. Exiting gracefully.");
-    process.exit(0);
+// Stops - SIGNIT
+process.on("SIGINT", async () => {
+  if (incenseChannel && isIncenseActive) {
+    try {
+      await incenseChannel.send(`<@${POKETWO_BOT_ID}> incense pause`);
+      console.log("Incense pause command sent on SIGINT.");
+    } catch (error) {
+      console.error("Error sending incense pause command on SIGINT:", error);
+    }
+  }
+
+  if (isSpamActive) {
+    console.log("Spam function was stopped.");
+  }
+  process.exit(0);
 });
 
-
+// Login
 client.login(TOKEN).catch((error) => {
   console.error("Failed to login to Discord:", error);
   process.exit(1);
