@@ -9,10 +9,11 @@
   <li>Download <a href="https://git-scm.com/downloads">Git</a> and <a href="https://nodejs.org/en/download">Node.js</a>.<br><i>You may not use Git and not clone this repository by just downloading LICENSE, index.js, .env and config.json files. You'd still need the folder, tho.</i></li>
   <li>Create a Folder on your PC and copy it's directory.</li>
   <ul>
-    <li>Open Windows CMD (Win + R) and run "cd [folder_directory]".</li>
+    <li>Open Windows CMD (Win + R) and run "cd [where you want the folder to be]".</li>
     <li>Run:</li>
     <ul>
       <li>` git clone https://github.com/Luzu24/PoketwoAutocatcher.git `.</li>
+      <li>` navigate inside the clone folder `</li>
       <li>` npm init -y `</li>
       <li>` npm install `</li>
       <li>` npm install discord.js-selfbot-v13@latest `</li>
