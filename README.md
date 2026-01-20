@@ -25,3 +25,4 @@
 
 ## Notice
 You need to have Pokéname (you can invite it from <a href="https://discord.com/oauth2/authorize?client_id=874910942490677270&permissions=412317379648&scope=applications.commands%20bot">here</a>) in your Discord server.<br>Personal reccomendation: do not use this on your main account, create an ALT instead. Do not trade Pokémons/Pokécoins directly to your main account, use a "bridge" account instead.<br><br>You will have to do the CD command again every time you close the CMD and then start the selfbot again with `node index.js`.
+tessst

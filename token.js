@@ -3,20 +3,20 @@
 // This script is *not* made by me, but I've edited it a bit. The original one is here: https://github.com/aiko-chan-ai/discord.js-selfbot-v13
 
 window.webpackChunkdiscord_app.push([
-	[Symbol()],
-	{},
-	req => {
-		if (!req.c) return;
-		for (let m of Object.values(req.c)) {
-			try {
-				if (!m.exports || m.exports === window) continue;
-				if (m.exports?.getToken) return copy(m.exports.getToken());
-				for (let ex in m.exports) {
-					if (m.exports?.[ex]?.getToken && m.exports[ex][Symbol.toStringTag] !== 'IntlMessagesProxy') return copy(m.exports[ex].getToken());
-				}
-			} catch {}
-		}
-	},
+    [Symbol()],
+    {},
+    req => {
+        if (!req.c) return;
+        for (let m of Object.values(req.c)) {
+            try {
+                if (!m.exports || m.exports === window) continue;
+                if (m.exports?.getToken) return copy(m.exports.getToken());
+                for (let ex in m.exports) {
+                    if (m.exports?.[ex]?.getToken && m.exports[ex][Symbol.toStringTag] !== 'IntlMessagesProxy') return copy(m.exports[ex].getToken());
+                }
+            } catch { }
+        }
+    },
 ]);
 
 window.webpackChunkdiscord_app.pop();

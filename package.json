@@ -8,8 +8,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "<h1 align=\"center\">Welcome to Luzu24's Pokétwo Autocatcher</h1>",
   "dependencies": {
-    "discord.js-selfbot-v13": "^3.7.0"
-  }
+    "discord.js-selfbot-v13": "^3.7.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luzu24/PoketwoAutocatcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Luzu24/PoketwoAutocatcher/issues"
+  },
+  "homepage": "https://github.com/Luzu24/PoketwoAutocatcher#readme"
 }

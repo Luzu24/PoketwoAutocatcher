@@ -1,8 +1,8 @@
 {
-  "ALLOWED_CHANNELS": ["Put your Allowed Channel(s) ID(s) here. Separe multiple IDs with a comma."],
-  "SPAM_CHANNEL": "This is the channel in which the selfbot will spam messages.",
+  "ALLOWED_CHANNELS": ["1301305910592929903"],
+  "SPAM_CHANNEL": "1393985083307720764",
   "MIN_CATCH_DELAY": 3000,
   "MAX_CATCH_DELAY": 7000,
-  "MIN_SPAM_INTERVAL": 1500,
-  "MAX_SPAM_INTERVAL": 4000
+  "MIN_SPAM_INTERVAL": 1200,
+  "MAX_SPAM_INTERVAL": 2400
 }
