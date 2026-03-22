@@ -12,11 +12,11 @@
     <li>Open Windows CMD (Win + R) and run "cd [where you want the folder to be]".</li>
     <li>Run:</li>
     <ul>
-      <li>` git clone https://github.com/Luzu24/PoketwoAutocatcher.git `.</li>
-      <li>` navigate inside the clone folder `</li>
-      <li>` npm init -y `</li>
-      <li>` npm install `</li>
-      <li>` npm install discord.js-selfbot-v13@latest `</li>
+      <li>`git clone https://github.com/Luzu24/PoketwoAutocatcher.git`.</li>
+      <li>`navigate inside the clone folder`</li>
+      <li>`npm install dotenv`</li>
+      <li>`npm install debug`</li>
+      <li>`npm install discord.js-selfbot-v13@latest`</li>
     </ul>
   </ul>
   <li>Now that you have the files you need you have to do your configurations. Paste your Token in the .env file (<i>TOKEN="Your Token goes here"</i>).<br>Open the config.json and put the IDs of the <i>ALLOWED_CHANNELS</i> and the ID of the <i>SPAM_CHANNEL</i>.<br><i>You may also edit spam message min/max interval and catch min/max delay, but I would leave it as how you found it if I was you.</i></li>
