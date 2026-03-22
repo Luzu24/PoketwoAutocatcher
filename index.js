@@ -141,33 +141,12 @@ client.on("messageCreate", async (message) => {
       const btn = message.components[0].components[0];
       if (btn && btn.customId) {
         activeInteractions.set(message.id, { timestamp: Date.now() });
-
-        const MAX_ATTEMPTS = 3;
-        const RETRY_DELAY = 500;
-
-        let success = false;
-        for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-          try {
-            await message.clickButton(btn.customId);
-            success = true;
-          } catch (clickError) {
-            if (clickError.message?.includes("INTERACTION_FAILED") || clickError.code === "INTERACTION_FAILED") {
-              console.warn(`[Attempt ${attempt}/${MAX_ATTEMPTS}] INTERACTION_FAILED, retrying in ${RETRY_DELAY}ms...`);
-              if (attempt < MAX_ATTEMPTS) {
-                await new Promise((res) => setTimeout(res, RETRY_DELAY));
-              }
-            } else {
-              console.error("Unexpected error clicking button:", clickError);
-              break;
-            }
-          }
-        }
-
-        if (!success) {
-          console.error(`Failed to click button after ${MAX_ATTEMPTS} attempts. Pokémon lost.`);
+        try {
+          await message.clickButton(btn.customId);
+        } catch (clickError) {
+          console.warn("Button click failed:", clickError.message);
           activeInteractions.delete(message.id);
         }
-
         return;
       }
     }
@@ -176,12 +155,13 @@ client.on("messageCreate", async (message) => {
       const refId = message.reference?.messageId;
       if (!refId || !activeInteractions.has(refId)) return;
 
+      activeInteractions.delete(refId);
+
       const pokemonNameMatch = message.embeds[0].title.match(/ - (.+)$/);
       const pokemonName = pokemonNameMatch ? pokemonNameMatch[1].trim().toLowerCase() : null;
 
       if (!pokemonName) {
         console.warn("Could not extract Pokémon name from embed title:", message.embeds[0].title);
-        activeInteractions.delete(refId);
         return;
       }
 
@@ -191,8 +171,6 @@ client.on("messageCreate", async (message) => {
           console.log(`Catched ${pokemonName}.`);
         } catch (error) {
           console.error(`Error sending catch command for ${pokemonName}:`, error);
-        } finally {
-          activeInteractions.delete(refId);
         }
       }, Math.floor(Math.random() * (MAX_CATCH_DELAY - MIN_CATCH_DELAY + 1)) + MIN_CATCH_DELAY);
     }
