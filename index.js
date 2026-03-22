@@ -188,7 +188,7 @@ client.on("messageCreate", async (message) => {
       setTimeout(async () => {
         try {
           await message.channel.send(`<@${POKETWO_BOT_ID}> c ${pokemonName}`);
-          console.log(`Catch command sent for: ${pokemonName}`);
+          console.log(`Catched ${pokemonName}.`);
         } catch (error) {
           console.error(`Error sending catch command for ${pokemonName}:`, error);
         } finally {
