@@ -10,7 +10,9 @@
   "license": "ISC",
   "description": "<h1 align=\"center\">Welcome to Luzu24's Pokétwo Autocatcher</h1>",
   "dependencies": {
-    "discord.js-selfbot-v13": "^3.7.1"
+    "debug": "^4.4.3",
+    "discord.js-selfbot-v13": "^3.7.1",
+    "dotenv": "^17.3.1"
   },
   "repository": {
     "type": "git",
