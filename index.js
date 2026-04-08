@@ -139,7 +139,7 @@ client.on("messageCreate", async (message) => {
   try {
     if (message.author.id === POKENAME_BOT_ID && message.content) {
       let pokemonName = "";
-      let cleanContent = message.content.replace(/\*\*/g, "").trim();
+      let cleanContent = message.content.replace(/\#\#/g, "").trim();
 
       if (cleanContent.includes("【")) {
         const match = cleanContent.match(/【(.*?)】/);
