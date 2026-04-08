@@ -137,42 +137,43 @@ client.on("messageCreate", async (message) => {
   if (!ALLOWED_CHANNELS.includes(message.channelId)) return;
 
   try {
-    if (message.author.id === POKENAME_BOT_ID && message.components?.length > 0) {
-      const btn = message.components[0].components[0];
-      if (btn && btn.customId) {
-        activeInteractions.set(message.id, { timestamp: Date.now() });
-        try {
-          await message.clickButton(btn.customId);
-        } catch (clickError) {
-          console.warn("Button click failed:", clickError.message);
-          activeInteractions.delete(message.id);
+    if (message.author.id === POKENAME_BOT_ID && message.content) {
+      let pokemonName = "";
+      let cleanContent = message.content.replace(/\*\*/g, "").trim();
+
+      if (cleanContent.includes("【")) {
+        const match = cleanContent.match(/【(.*?)】/);
+        if (match && match[1]) {
+          pokemonName = match[1]
+            .replace(/:.*?:/g, "")
+            .replace(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/g, "") 
+            .trim()
+            .split(" ")[0]; 
         }
-        return;
-      }
-    }
-
-    if (message.author.id === POKENAME_BOT_ID && message.embeds?.[0]?.title) {
-      const refId = message.reference?.messageId;
-      if (!refId || !activeInteractions.has(refId)) return;
-
-      activeInteractions.delete(refId);
-
-      const pokemonNameMatch = message.embeds[0].title.match(/ - (.+)$/);
-      const pokemonName = pokemonNameMatch ? pokemonNameMatch[1].trim().toLowerCase() : null;
-
+      } 
+      
       if (!pokemonName) {
-        console.warn("Could not extract Pokémon name from embed title:", message.embeds[0].title);
-        return;
+        const matchSimple = cleanContent.match(/[a-zA-Z0-9éèàòùí]+/);
+        if (matchSimple) {
+          pokemonName = matchSimple[0];
+        }
       }
+
+      if (!pokemonName) return;
+
+      pokemonName = pokemonName.toLowerCase();
+      console.log(`Detected ${pokemonName}`);
+
+      const delay = Math.floor(Math.random() * (MAX_CATCH_DELAY - MIN_CATCH_DELAY + 1)) + MIN_CATCH_DELAY;
 
       setTimeout(async () => {
         try {
           await message.channel.send(`<@${POKETWO_BOT_ID}> c ${pokemonName}`);
-          console.log(`Catched ${pokemonName}.`);
+          console.log(`Catched ${pokemonName}`);
         } catch (error) {
-          console.error(`Error sending catch command for ${pokemonName}:`, error);
+          console.error(`Error sending command:`, error);
         }
-      }, Math.floor(Math.random() * (MAX_CATCH_DELAY - MIN_CATCH_DELAY + 1)) + MIN_CATCH_DELAY);
+      }, delay);
     }
   } catch (err) {
     console.error("Error in messageCreate handler:", err);
