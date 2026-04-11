@@ -139,24 +139,18 @@ client.on("messageCreate", async (message) => {
   try {
     if (message.author.id === POKENAME_BOT_ID && message.content) {
       let pokemonName = "";
-      let cleanContent = message.content.replace(/\#\#/g, "").trim();
-
-      if (cleanContent.includes("【")) {
-        const match = cleanContent.match(/【(.*?)】/);
-        if (match && match[1]) {
-          pokemonName = match[1]
-            .replace(/:.*?:/g, "")
-            .replace(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/g, "") 
-            .trim()
-            .split(" ")[0]; 
-        }
-      } 
       
-      if (!pokemonName) {
-        const matchSimple = cleanContent.match(/[a-zA-Z0-9éèàòùí]+/);
-        if (matchSimple) {
-          pokemonName = matchSimple[0];
-        }
+      let cleanContent = message.content
+        .replace(/^##\s+/, "") 
+        .replace(/:[^:]+:/g, "") 
+        .trim();
+
+      const bracketMatch = cleanContent.match(/【(.*?)】/);
+      
+      if (bracketMatch && bracketMatch[1]) {
+        pokemonName = bracketMatch[1].trim();
+      } else {
+        pokemonName = cleanContent.split(/\s+/)[0]; 
       }
 
       if (!pokemonName) return;
