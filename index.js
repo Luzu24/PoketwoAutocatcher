@@ -139,6 +139,13 @@ client.on("ready", async () => {
 client.on("messageCreate", async (message) => {
   if (!ALLOWED_CHANNELS.includes(message.channelId)) return;
 
+  // Track incense state manually or from other users/bots
+  if (message.content.toLowerCase().includes("incense resume")) {
+    isIncenseActive = true;
+  } else if (message.content.toLowerCase().includes("incense pause")) {
+    isIncenseActive = false;
+  }
+
   try {
     if (message.author.id === POKENAME_BOT_ID && message.content) {
       const rawContent = message.content;
@@ -170,14 +177,14 @@ client.on("messageCreate", async (message) => {
           try {
             await message.channel.send(`<@${POKETWO_BOT_ID}> incense pause`);
             isIncenseActive = false;
-            console.log("Incense paused for protection.");
+            console.log("Incense pause command sent for protection.");
           } catch (pauseError) {
             console.error("Failed to pause incense:", pauseError);
           }
         }
 
         try {
-          await message.channel.send(`<@${MAIN_ID}> - A **${pokemonName}** has spawned! Incense has been paused.`);
+          await message.channel.send(`hey <@${MAIN_ID}> a ${pokemonName} is here`);
         } catch (pingError) {
           console.error("Failed to ping main ID:", pingError);
         }
