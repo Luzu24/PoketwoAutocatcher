@@ -16,6 +16,9 @@ const {
   MAX_CATCH_DELAY,
   MIN_SPAM_INTERVAL,
   MAX_SPAM_INTERVAL,
+  MAIN_ID,
+  SHINY_HUNT,
+  RARE_ROLE,
 } = config;
 const POKENAME_BOT_ID = "874910942490677270";
 const POKETWO_BOT_ID = "716390085896962058";
@@ -138,9 +141,10 @@ client.on("messageCreate", async (message) => {
 
   try {
     if (message.author.id === POKENAME_BOT_ID && message.content) {
+      const rawContent = message.content;
       let pokemonName = "";
       
-      let cleanContent = message.content
+      let cleanContent = rawContent
         .replace(/^##\s+/, "") 
         .replace(/:[^:]+:/g, "") 
         .trim();
@@ -155,15 +159,39 @@ client.on("messageCreate", async (message) => {
 
       if (!pokemonName) return;
 
-      pokemonName = pokemonName.toLowerCase();
-      console.log(`Detected ${pokemonName}`);
+      const lowerPokemonName = pokemonName.toLowerCase();
+      const isRare = rawContent.includes(RARE_ROLE);
+      const isShinyHunt = lowerPokemonName === SHINY_HUNT?.toLowerCase();
+
+      if (isRare || isShinyHunt) {
+        console.log(`CRITICAL: ${isRare ? "Rare" : "Shiny Hunt"} Pokémon detected: ${pokemonName}`);
+        
+        if (isIncenseActive) {
+          try {
+            await message.channel.send(`<@${POKETWO_BOT_ID}> incense pause`);
+            isIncenseActive = false;
+            console.log("Incense paused for protection.");
+          } catch (pauseError) {
+            console.error("Failed to pause incense:", pauseError);
+          }
+        }
+
+        try {
+          await message.channel.send(`<@${MAIN_ID}> - A **${pokemonName}** has spawned! Incense has been paused.`);
+        } catch (pingError) {
+          console.error("Failed to ping main ID:", pingError);
+        }
+        return; 
+      }
+
+      console.log(`Detected ${lowerPokemonName}`);
 
       const delay = Math.floor(Math.random() * (MAX_CATCH_DELAY - MIN_CATCH_DELAY + 1)) + MIN_CATCH_DELAY;
 
       setTimeout(async () => {
         try {
-          await message.channel.send(`<@${POKETWO_BOT_ID}> c ${pokemonName}`);
-          console.log(`Catched ${pokemonName}`);
+          await message.channel.send(`<@${POKETWO_BOT_ID}> c ${lowerPokemonName}`);
+          console.log(`Catched ${lowerPokemonName}`);
         } catch (error) {
           console.error(`Error sending command:`, error);
         }
