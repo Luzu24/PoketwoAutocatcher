@@ -17,7 +17,7 @@ const {
   MIN_SPAM_INTERVAL,
   MAX_SPAM_INTERVAL,
   MAIN_ID,
-  SHINY_HUNT,
+  WANTED,
   RARE_ROLE,
 } = config;
 const POKENAME_BOT_ID = "874910942490677270";
@@ -168,10 +168,14 @@ client.on("messageCreate", async (message) => {
 
       const lowerPokemonName = pokemonName.toLowerCase();
       const isRare = rawContent.includes(RARE_ROLE);
-      const isShinyHunt = lowerPokemonName === SHINY_HUNT?.toLowerCase();
+      
+      // Check if current pokemon is in the WANTED list (handling both single string or array)
+      const isWanted = Array.isArray(WANTED) 
+        ? WANTED.some(p => p.toLowerCase() === lowerPokemonName)
+        : lowerPokemonName === WANTED?.toLowerCase();
 
-      if (isRare || isShinyHunt) {
-        console.log(`CRITICAL: ${isRare ? "Rare" : "Shiny Hunt"} Pokémon detected: ${pokemonName}`);
+      if (isRare || isWanted) {
+        console.log(`CRITICAL: ${isRare ? "Rare" : "Wanted"} Pokémon detected: ${pokemonName}`);
         
         if (isIncenseActive) {
           try {
@@ -190,6 +194,7 @@ client.on("messageCreate", async (message) => {
         }
         return; 
       }
+
 
       console.log(`Detected ${lowerPokemonName}`);
 
