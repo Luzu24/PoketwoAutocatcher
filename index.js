@@ -20,7 +20,7 @@ const {
   WANTED,
   RARE_ROLE,
 } = config;
-const POKENAME_BOT_ID = "1295437504006328394";
+const POKENAME_BOT_ID = "874910942490677270";
 const POKETWO_BOT_ID = "716390085896962058";
 
 // Runtime variables
