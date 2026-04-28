@@ -155,7 +155,8 @@ client.on("messageCreate", async (message) => {
         .replace(/^##\s+/, "")
         .replace(/:[^:]+:/g, "")
         .replace(/\p{Extended_Pictographic}/gu, "")
-        .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, "") 
+        .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, "")
+        .replace(/<[@#&!]?\d+>/g, "")
         .trim();
 
       const bracketMatch = cleanContent.match(/【(.*?)】/);
