@@ -20,7 +20,7 @@ const {
   WANTED,
   RARE_ROLE,
 } = config;
-const POKENAME_BOT_ID = "874910942490677270";
+const POKENAME_BOT_ID = "1295437504006328394";
 const POKETWO_BOT_ID = "716390085896962058";
 
 // Runtime variables
@@ -152,8 +152,10 @@ client.on("messageCreate", async (message) => {
       let pokemonName = "";
       
       let cleanContent = rawContent
-        .replace(/^##\s+/, "") 
-        .replace(/:[^:]+:/g, "") 
+        .replace(/^##\s+/, "")
+        .replace(/:[^:]+:/g, "")
+        .replace(/\p{Extended_Pictographic}/gu, "")
+        .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, "") 
         .trim();
 
       const bracketMatch = cleanContent.match(/【(.*?)】/);
@@ -161,7 +163,7 @@ client.on("messageCreate", async (message) => {
       if (bracketMatch && bracketMatch[1]) {
         pokemonName = bracketMatch[1].trim();
       } else {
-        pokemonName = cleanContent.split(/\s+/)[0]; 
+        pokemonName = cleanContent.split("\n")[0].trim();
       }
 
       if (!pokemonName) return;
@@ -169,7 +171,6 @@ client.on("messageCreate", async (message) => {
       const lowerPokemonName = pokemonName.toLowerCase();
       const isRare = rawContent.includes(RARE_ROLE);
       
-      // Check if current pokemon is in the WANTED list (handling both single string or array)
       const isWanted = Array.isArray(WANTED) 
         ? WANTED.some(p => p.toLowerCase() === lowerPokemonName)
         : lowerPokemonName === WANTED?.toLowerCase();
